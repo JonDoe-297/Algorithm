@@ -5,7 +5,7 @@ output_num = []
 def fibonacci(n):
     fn1, fn2 = 1, 1
     for i in range(1, n):
-        fn2, fn1 = fn1, 4 * fn1 + 5 * fn2
+        fn2, fn1 = fn1, a * fn1 + b * fn2
     return fn2
 
 

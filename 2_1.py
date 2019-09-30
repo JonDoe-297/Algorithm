@@ -1,0 +1,1 @@
+line_num, a, b = map(int, input().split())

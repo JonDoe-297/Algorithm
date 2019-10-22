@@ -42,12 +42,12 @@ int maxSumValue(vector<int> data, int xMoney, int yGoods) {
 	for(i = 1; i <= goodsNum; i++) {
 		for(j = 1; j <= xMoney; j++) {
 			// 递推关系式出炉
-			if(j < data[i * 3]) {
+			if(j < currentData[i * 3]) {
 				c[i][j] = c[i - 1][j];
 			}
 			else {
 				int x = c[i - 1][j];
-				int y = c[i - 1][j - data[i * 3]] + data[i * 3 + 1];
+				int y = c[i - 1][j - currentData[i * 3]] + currentData[i * 3 + 1];
 				c[i][j] = x < y ? y : x;
 			}
 		}

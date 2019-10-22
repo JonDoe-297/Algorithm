@@ -42,10 +42,10 @@ int maxSumValue(vector<int> data, int xDay, int yMoney) { // 动态规划
         }
     }
     int goodsNum = data.size() / 3;
-    vector<vector<int> > c(goodsNum + 1, vector<int>(yMoney + 1, 0)); 
+    vector<vector<int> > c(goodsNum, vector<int>(yMoney + 1, 0)); 
     // int c[goodsNum][yMoney] = {0};
 
-	for(i = 1; i <= goodsNum; i++) {
+	for(i = 1; i < goodsNum; i++) {
 		for(j = 1; j <= yMoney; j++) {
 			// 递推关系式出炉
 			if(j < data[i * 3]) {
@@ -58,15 +58,16 @@ int maxSumValue(vector<int> data, int xDay, int yMoney) { // 动态规划
 			}
 		}
     }
+    // cout << goodsNum << endl;
+    // cout << yMoney << endl;
+    for(i = 0; i < goodsNum; i++) {
+        for(j = 0;j <= yMoney; j++) {
+            cout << c[i][j] << ' ';
+        }
+        cout << endl;
+    }
 
-//    for(i = 0; i < goodsNum; i++) {
-//        for(j = 0;j < yMoney; j++) {
-//             cout << c[i][j] << ' ';
-//         }
-//         cout << endl;
-//    }
-
-    return c[goodsNum][yMoney];
+    return c[goodsNum - 1][yMoney];
 }
 int main() {
     int N, M = 0;

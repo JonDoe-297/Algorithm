@@ -12,46 +12,35 @@ struct costData
 };
 string line;
 vector<costData> data;
-
-// int min_cost(costData data, char lineData, int starNum, int oNum, int xNum, int len, int cost, int i) {
-//     if (i <= len) {
-//         if (lineData)
-//     }
-// }
+int result = 2147483647;
 int min_cost(int oNum, int xNum, int len, int cost, int i, int n) { // i line 遍历数， n data 遍历数
-    int costL = 0;
-    int costR = 0;
-    cout << "cost " << cost << endl;
+    int val = 2147483647;
     if (i < len && oNum <= (len + 1) / 2 && xNum <= (len + 1) / 2) {
         if (line[i] == 'o') {
             oNum++;
-            cost += min_cost(oNum, xNum, len, cost, i + 1, n);
+            val = min_cost(oNum, xNum, len, cost, i + 1, n);
         } else if (line[i] == 'x') {
             xNum++;
-            cost += min_cost(oNum, xNum, len, cost, i + 1, n);
+            val = min_cost(oNum, xNum, len, cost, i + 1, n);
         } else if (line[i] == '*') {
-            cout << "oNum " << oNum << ' ' << "xNum " << xNum << endl;
+//            cout << "oNum " << oNum << ' ' << "xNum " << xNum << endl;
             if (oNum - xNum == 0) {
-                // cout << cost << endl;
-                cost += min_cost(++oNum, xNum, len, cost + data[n].a, i + 1, ++n);
+                int costA = cost + data[n].a;
+                val = min_cost(oNum + 1, xNum, len, costA, i + 1, n + 1);
             } else if (oNum - xNum > 0) {
                 if (oNum < (len + 1) / 2) {
-                    int o = oNum;
-                    int x = xNum;
-                    cout << cost << endl;
-                    cout << data[n].a << endl;
-                    costL = cost += min_cost(++o, xNum, len, cost + data[n].a, i + 1, ++n);
-                    costR = cost += min_cost(oNum, ++x, len, cost + data[n].b, i + 1, ++n);  
+                    int costA = cost + data[n].a;
+                    int costB = cost + data[n].b;
+                    val = min_cost(oNum + 1, xNum, len, costA, i + 1, n + 1);
+                    val = min_cost(oNum, xNum + 1, len, costB, i + 1, n + 1);
                 } else if (oNum == (len + 1) / 2) {
-                    // cout << i << " " << n << endl;
-                    cout << cost << endl;
-                    cost += min_cost(oNum, ++xNum, len, cost + data[n].b, i + 1, ++n);  
+                    int costB = cost + data[n].b;
+                    val = min_cost(oNum, xNum + 1, len, costB, i + 1, n + 1);
                 }
             }
         }
     } else if (i == len) {
         if (line[i] != '*') {
-            // oNum++;
             return cost;
         } else if (line[i] == '*') {
             if (oNum - xNum > 0) {
@@ -61,16 +50,13 @@ int min_cost(int oNum, int xNum, int len, int cost, int i, int n) { // i line �
             }
         }
     }
-    // cout << (costL < costR ? costL : costR) << endl;
-    return costL < costR ? costL : costR;
+    if (val < result) result = val;
+    return result;
 }
 int main(){
     // string line;
     cin >> line;
     int starNum = count(line.begin(),line.end(),'*');
-    // int oNum = count(line.begin(),line.end(),'o');
-    // int xNum = count(line.begin(),line.end(),'x');
-    // int starNum = 0;
     int oNum = 0;
     int xNum = 0;
     int min = 0;
@@ -80,7 +66,7 @@ int main(){
         cin >> Ddata.a >> Ddata.b;
         data.push_back(Ddata);
     }
-    min = min_cost(oNum, xNum, line.size() - 1,min, 0, 0);
+    min = min_cost(oNum, xNum, line.size() - 1, 0, 0, 0);
     cout << min << endl;
     return 0;
 }
